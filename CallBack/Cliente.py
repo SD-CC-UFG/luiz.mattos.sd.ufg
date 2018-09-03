@@ -4,12 +4,6 @@ import threading
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-HOST = '127.0.0.1'
-PORT = 9996
-dest = (HOST, PORT)
-
-s.connect(dest)
-
 def waitingResponse():
 	data = s.recv(1024)
 	
@@ -17,17 +11,42 @@ def waitingResponse():
 	
 	print ("RESPOSTA RECEBIDA: ", msg)
 	
+class Cliente:
+	def setCamposSocket(self, h, p):
 
-while True:
-	msg = input("DIGITAE: ")
-	
-	msgSerializada = pickle.dumps(msg)
+		HOST = h
+		PORT = p
+		dest = (HOST, PORT)
+		
+		return dest
+		
 
-	s.send(msgSerializada)
-	
-	t = threading.Thread(target=waitingResponse , args = ())
-	t.start()
-	
-	if msg == 'exit': break
-	 
-s.close()
+	def conecta(self, dest):
+		s.connect(dest)
+		
+	def enviaMSG(self):
+		
+		while True:
+			msg = input("Informe seu nome: ")
+			
+			msgSerializada = pickle.dumps(msg)
+
+			s.send(msgSerializada)
+			
+			if msg == 'exit': break
+			
+			t = threading.Thread(target=waitingResponse , args = ())
+			t.start()
+			
+			
+			
+	def exit(self):
+		s.close()
+		
+		
+cliente = Cliente()
+
+dest = cliente.setCamposSocket('127.0.0.1',9996)
+cliente.conecta(dest)
+cliente.enviaMSG()
+cliente.exit()

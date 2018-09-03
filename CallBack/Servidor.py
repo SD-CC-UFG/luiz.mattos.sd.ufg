@@ -1,6 +1,7 @@
 import socket
 import threading
 import pickle
+import time
 
 HOST = ''              # Endereco IP do Servidor
 PORT = 9996            # Porta que o Servidor esta
@@ -21,6 +22,8 @@ def conectado(con, cliente):
 		
 		msgSerializada = pickle.dumps(msg)
 
+		time.sleep(5)
+		
 		con.send(msgSerializada)
 	
 
