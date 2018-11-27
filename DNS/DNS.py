@@ -1,7 +1,7 @@
+import threadPool as tp
 import socket
 import threading
 import pickle
-import time
 
 HOST = ''              # Endereco IP do Servidor
 PORT = 9996            # Porta que o Servidor esta
@@ -25,14 +25,15 @@ class DNS:
 	def getAddress(self, host):
 		for i in self.lista:
 			name, address, port = i
-			if name == host: return address, port
+			if name == host:
+				return address, port
 			
 		return -1
 		
 	def listen(self):
 		while True:
 			con, cliente = self.s.accept()
-			t = threading.Thread(target = self.clienteConectado ,args=(con, cliente))
+			t = threading.Thread(target=self.clienteConectado, args=(con, cliente))
 			t.start()
 	
 	def clienteConectado(self,con, cliente):
